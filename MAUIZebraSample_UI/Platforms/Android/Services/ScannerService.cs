@@ -5,6 +5,7 @@ namespace MAUIZebraSample_UI.Platforms.Android.Services
 {
     public class ScannerService : IScannerService
     {
+        //Note: Action name & scanner control name should not be changed.
         private string DATAWEDGE_ACTION = "com.symbol.datawedge.api.ACTION";
         private string DATAWEDGE_EXTRA_KEY_SCANNER_CONTROL = "com.symbol.datawedge.api.SCANNER_INPUT_PLUGIN";
 
