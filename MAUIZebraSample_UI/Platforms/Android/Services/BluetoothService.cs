@@ -13,6 +13,8 @@ namespace MAUIZebraSample_UI.Platforms.Android.Services
         Context _context;
         public Context Context { set => _context = value; }
 
+
+
         private bool _isConnectionInProgress = false;
 
 
@@ -42,13 +44,27 @@ namespace MAUIZebraSample_UI.Platforms.Android.Services
             return new List<string>();
         }
 
-        public async Task ConnectPairedDevices(string deviceName)
+        public string GetConnectedBluetoothDeviceAddress(string deviceName)
+        {
+            if (!IsBluetoothEnabled())
+                throw new Exception($"Bluetooth not enabled.");
+
+            if (!IsBluetoothDeviceConnected(deviceName))
+                throw new Exception($"Bluetooth device {deviceName} not connected.");
+
+            var device = _bluetoothAdapter.BondedDevices.FirstOrDefault(d => d.Name == deviceName);
+
+            if (device == null)
+                throw new Exception($"Bluetooth device {deviceName} not found.");
+
+            return device.Address;
+        }
+
+        public async Task<string> ConnectPairedDevices(string deviceName)
         {
 
             if (!IsBluetoothEnabled())
                 throw new Exception($"Bluetooth not enabled.");
-
-            var vs = _bluetoothAdapter.BondedDevices.ToList();
 
             var device = _bluetoothAdapter.BondedDevices.FirstOrDefault(d => d.Name == deviceName);
 
@@ -60,6 +76,8 @@ namespace MAUIZebraSample_UI.Platforms.Android.Services
             _isConnectionInProgress = true;
 
             await _socket.ConnectAsync().ContinueWith(x => _isConnectionInProgress = false);
+
+            return device.Address;
         }
 
         //Note: This is a hidden api. Might get depricated/inaccessible later on.

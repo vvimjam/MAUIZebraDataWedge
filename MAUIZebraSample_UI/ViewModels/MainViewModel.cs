@@ -9,7 +9,7 @@ namespace MAUIZebraSample_UI.ViewModels
     public class MainViewModel : BindableObject
     {
         internal readonly Context Context = Android.App.Application.Context;
-        
+
 
         private string _scannedText;
         public string ScannedText
@@ -18,6 +18,17 @@ namespace MAUIZebraSample_UI.ViewModels
             set
             {
                 _scannedText = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _showTestPrintButton;
+        public bool ShowTestPrintButton
+        {
+            get => _showTestPrintButton;
+            set
+            {
+                _showTestPrintButton = value;
                 OnPropertyChanged();
             }
         }
@@ -35,7 +46,7 @@ namespace MAUIZebraSample_UI.ViewModels
         }
 
 
-        private string _printerName = "PRWBEL001";
+        private string _printerName = "YOUR_PRINTER_NAME_HERE";
         public string PrinterName
         {
             get => _printerName;
@@ -60,13 +71,14 @@ namespace MAUIZebraSample_UI.ViewModels
 
         public ICommand OnToggleScannerClicked { get; }
         public ICommand OnToggleBluetoothPairingClicked { get; }
+        public ICommand OnInvokeTestPrintClicked { get; }
 
 
         private readonly IScannerService _scannerService;
         private readonly IBluetoothService _bluetoothService;
         private Scanner _scanner;
 
-        public MainViewModel(IScannerService scannerService,  IBluetoothService bluetoothService)
+        public MainViewModel(IScannerService scannerService, IBluetoothService bluetoothService)
         {
             _scannerService = scannerService;
             _bluetoothService = bluetoothService;
@@ -77,11 +89,12 @@ namespace MAUIZebraSample_UI.ViewModels
             ToggleScannerButtonText = _scanner.ToggleScannerButtonText;
             ScannedText = _scanner.ScannedTest;
             _pairingButtonText = _scanner.PairingButtonText;
+            _showTestPrintButton = _scanner.IsBluetoothPaired;
 
             OnToggleScannerClicked = new Command(_scanner.ToggleScanner);
-            _scanner.PropertyChanged += Scanner_PropertyChanged;
-
-            OnToggleBluetoothPairingClicked = new Command((x) => _scanner.ToggleBluetoothPairing(_printerName));
+            OnToggleBluetoothPairingClicked = new Command(async (x) => await _scanner.ToggleBluetoothPairing(_printerName));
+            OnInvokeTestPrintClicked = new Command(_scanner.PrintTest);
+            
             _scanner.PropertyChanged += Scanner_PropertyChanged;
         }
 
@@ -97,8 +110,10 @@ namespace MAUIZebraSample_UI.ViewModels
                     case nameof(Scanner.ToggleScannerButtonText):
                         ToggleScannerButtonText = scanner.ToggleScannerButtonText;
                         break;
+                    case nameof(Scanner.IsBluetoothPaired):
                     case nameof(Scanner.PairingButtonText):
                         PairingButtonText = scanner.PairingButtonText;
+                        ShowTestPrintButton = scanner.IsBluetoothPaired;
                         break;
                     default:
                         break;

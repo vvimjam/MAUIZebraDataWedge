@@ -40,6 +40,17 @@
                 Command="{Binding OnToggleBluetoothPairingClicked}"
                 />
 
+            <Button 
+                LineBreakMode="NoWrap"
+                 MinimumWidthRequest="200"
+                Text="Invoke Test Print"
+                FontAttributes="Bold"
+                SemanticProperties.Hint="Invokes test printing operation"
+                HorizontalOptions="CenterAndExpand"
+                Command="{Binding OnInvokeTestPrintClicked}"
+                IsEnabled="{Binding ShowTestPrintButton}"
+                />
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

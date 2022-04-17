@@ -1,4 +1,5 @@
-﻿using Android.Content;
+﻿using Android.Bluetooth;
+using Android.Content;
 
 namespace MAUIZebraSample_UI.Interfaces.Services
 {
@@ -12,10 +13,12 @@ namespace MAUIZebraSample_UI.Interfaces.Services
 
         List<string> GetAvailableBluetoothDevices();
 
-        Task ConnectPairedDevices(string deviceName);
+        Task<string> ConnectPairedDevices(string deviceName);
 
         void PairDevice(string deviceName);
 
         void RemovePairedDevice(string deviceName);
+
+        string GetConnectedBluetoothDeviceAddress(string deviceName);
     }
 }
