@@ -11,6 +11,7 @@ public partial class MainView : ContentPage
         InitializeComponent();
         _viewModel = viewModel;
         this.BindingContext = _viewModel;
+
     }
 
 }

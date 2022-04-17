@@ -46,6 +46,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="Zebra.Printer.SDK" Version="2.15.2634" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Compile Update="Views\MainView.xaml.cs">
 	    <DependentUpon>MainView.xaml</DependentUpon>
 	  </Compile>

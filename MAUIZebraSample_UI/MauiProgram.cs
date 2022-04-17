@@ -1,4 +1,5 @@
-﻿using MAUIZebraSample_UI.Interfaces.Services;
+﻿using Android.App;
+using MAUIZebraSample_UI.Interfaces.Services;
 using MAUIZebraSample_UI.Platforms.Android.Services;
 using MAUIZebraSample_UI.ViewModels;
 
@@ -18,6 +19,7 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
+        builder.Services.AddSingleton<IBluetoothService, BluetoothService>();
         builder.Services.AddSingleton<IScannerService, ScannerService>();
         builder.Services.AddSingleton<MainView>();
         builder.Services.AddSingleton<MainViewModel>();

@@ -6,17 +6,10 @@
     <ScrollView>
         <VerticalStackLayout Spacing="25" Padding="30">
 
-            <Label 
-                Text="{Binding ScannedText}"
-                FontSize="18"
-                FontAttributes="Bold"
-                x:Name="ScannedTextLabel"
-                HorizontalOptions="Center" />
-
             <Entry
                 MaxLength="50"
                 Style="{StaticResource CommonEntryStyle}"
-                Text="" 
+                Text="{Binding ScannedText,Mode=TwoWay}" 
                 Placeholder="Scanned text apprears here"
                 />
 
@@ -28,6 +21,23 @@
                 SemanticProperties.Hint="Toggles scanner api"
                 HorizontalOptions="CenterAndExpand"
                 Command="{Binding OnToggleScannerClicked}"
+                />
+
+            <Entry
+                MaxLength="10"
+                Style="{StaticResource CommonEntryStyle}"
+                Text="{Binding PrinterName,Mode=TwoWay}" 
+                Placeholder="Enter printer name to connect.."
+                />
+
+            <Button 
+                LineBreakMode="NoWrap"
+                 MinimumWidthRequest="200"
+                Text="{Binding PairingButtonText}"
+                FontAttributes="Bold"
+                SemanticProperties.Hint="Toggles bluetooth pair status"
+                HorizontalOptions="CenterAndExpand"
+                Command="{Binding OnToggleBluetoothPairingClicked}"
                 />
 
         </VerticalStackLayout>
